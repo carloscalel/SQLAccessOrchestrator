@@ -1,0 +1,29 @@
+@page "/"
+
+<MudText Typo="Typo.h5">Gestión de Usuarios SQL</MudText>
+<MudTable Dense="true" Hover="true" Items="users">
+    <HeaderContent>
+        <MudTh>Login</MudTh>
+        <MudTh>Usuario</MudTh>
+        <MudTh>Estado</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd>@context.Login</MudTd>
+        <MudTd>@context.User</MudTd>
+        <MudTd>
+            <MudChip T="string" Color="@(context.Disabled ? Color.Warning : Color.Success)">
+                @(context.Disabled ? "Deshabilitado" : "Activo")
+            </MudChip>
+        </MudTd>
+    </RowTemplate>
+</MudTable>
+
+@code {
+    private readonly List<UserRow> users =
+    [
+        new("corp\\svc-report", "svc_report", false),
+        new("corp\\usr-analyst", "usr_analyst", true)
+    ];
+
+    private sealed record UserRow(string Login, string User, bool Disabled);
+}
