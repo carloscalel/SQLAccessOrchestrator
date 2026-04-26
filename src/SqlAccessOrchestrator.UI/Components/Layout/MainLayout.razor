@@ -6,8 +6,8 @@
         <MudSpacer />
         <MudText>Usuario: @contextUser</MudText>
         <MudSelect T="string" Value="@activeDomain" ValueChanged="SetDomain" Dense="true" Class="ml-4">
-            <MudSelectItem Value="CORP">CORP</MudSelectItem>
-            <MudSelectItem Value="FACTORY">FACTORY</MudSelectItem>
+            <MudSelectItem Value='@("CORP")'>CORP</MudSelectItem>
+            <MudSelectItem Value='@("FACTORY")'>FACTORY</MudSelectItem>
         </MudSelect>
     </MudAppBar>
     <MudDrawer Open="true" ClipMode="DrawerClipMode.Always">

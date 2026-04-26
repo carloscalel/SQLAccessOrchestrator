@@ -1,6 +1,6 @@
 # Plataforma Centralizada de Gestión de Accesos SQL Server Multi-Dominio
 
-Arquitectura empresarial basada en Clean Architecture para gobierno de accesos SQL Server.
+Arquitectura empresarial basada en Clean Architecture para gobierno de accesos SQL Server, actualizado a .NET 10.0.
 
 ## Capas
 - **Api**: ASP.NET Core Web API (Negotiate + policy-based auth + middlewares de dominio/correlation/error).
@@ -20,4 +20,5 @@ Arquitectura empresarial basada en Clean Architecture para gobierno de accesos S
 dotnet restore SqlAccessOrchestrator.sln
 dotnet build SqlAccessOrchestrator.sln
 dotnet test tests/SqlAccessOrchestrator.UnitTests/SqlAccessOrchestrator.UnitTests.csproj
+# Requiere SDK de .NET 10.0
 ```

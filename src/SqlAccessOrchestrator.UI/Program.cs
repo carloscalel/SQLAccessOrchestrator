@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authentication.Negotiate;
 using MudBlazor.Services;
+using SqlAccessOrchestrator.UI.Components;
 using SqlAccessOrchestrator.UI.Services;
 
 var builder = WebApplication.CreateBuilder(args);

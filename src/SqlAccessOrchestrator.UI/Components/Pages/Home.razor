@@ -11,7 +11,7 @@
         <MudTd>@context.Login</MudTd>
         <MudTd>@context.User</MudTd>
         <MudTd>
-            <MudChip Color="@(context.Disabled ? Color.Warning : Color.Success)">
+            <MudChip T="string" Color="@(context.Disabled ? Color.Warning : Color.Success)">
                 @(context.Disabled ? "Deshabilitado" : "Activo")
             </MudChip>
         </MudTd>

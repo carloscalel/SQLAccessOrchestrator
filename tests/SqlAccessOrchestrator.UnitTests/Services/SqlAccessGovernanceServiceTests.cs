@@ -3,6 +3,7 @@ using SqlAccessOrchestrator.Application.Abstractions;
 using SqlAccessOrchestrator.Application.DTOs;
 using SqlAccessOrchestrator.Application.Services;
 using SqlAccessOrchestrator.Domain.Entities;
+using Xunit;
 
 namespace SqlAccessOrchestrator.UnitTests.Services;
 
