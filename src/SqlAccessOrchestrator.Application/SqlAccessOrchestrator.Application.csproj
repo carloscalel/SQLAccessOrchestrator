@@ -1,0 +1,5 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <ProjectReference Include="..\SqlAccessOrchestrator.Domain\SqlAccessOrchestrator.Domain.csproj" />
+  </ItemGroup>
+</Project>

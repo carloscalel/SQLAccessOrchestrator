@@ -1,0 +1,33 @@
+@inherits LayoutComponentBase
+<MudThemeProvider />
+<MudLayout>
+    <MudAppBar Elevation="1">
+        <MudText Typo="Typo.h6">Plataforma Centralizada SQL</MudText>
+        <MudSpacer />
+        <MudText>Usuario: @contextUser</MudText>
+        <MudSelect T="string" Value="@activeDomain" ValueChanged="SetDomain" Dense="true" Class="ml-4">
+            <MudSelectItem Value="CORP">CORP</MudSelectItem>
+            <MudSelectItem Value="FACTORY">FACTORY</MudSelectItem>
+        </MudSelect>
+    </MudAppBar>
+    <MudDrawer Open="true" ClipMode="DrawerClipMode.Always">
+        <MudNavMenu>
+            <MudNavLink Href="/">Usuarios</MudNavLink>
+            <MudNavLink Href="/roles">Roles</MudNavLink>
+            <MudNavLink Href="/permissions">Permisos</MudNavLink>
+            <MudNavLink Href="/audit">Auditoría</MudNavLink>
+        </MudNavMenu>
+    </MudDrawer>
+    <MudMainContent Class="pa-4">@Body</MudMainContent>
+</MudLayout>
+
+@code {
+    private string contextUser = Environment.UserName;
+    private string activeDomain = "CORP";
+
+    private Task SetDomain(string value)
+    {
+        activeDomain = value;
+        return Task.CompletedTask;
+    }
+}
