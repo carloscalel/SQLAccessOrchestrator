@@ -28,6 +28,8 @@ public sealed class SqlAccessGovernanceServiceTests
         public Task DisableUserAsync(DomainContext context, DisableSqlUserRequest request, CancellationToken cancellationToken) => Task.CompletedTask;
         public Task<IReadOnlyCollection<string>> ListUserRolesAsync(DomainContext context, string userName, CancellationToken cancellationToken) => Task.FromResult<IReadOnlyCollection<string>>([]);
         public Task ClonePermissionsAsync(DomainContext context, PermissionCloneRequest request, CancellationToken cancellationToken) => Task.CompletedTask;
+        public Task<IReadOnlyCollection<SqlUserSummary>> ListUsersAsync(DomainContext context, CancellationToken cancellationToken)
+            => Task.FromResult<IReadOnlyCollection<SqlUserSummary>>([]);
     }
 
     private sealed class FakeAuditRepo : IAuditRepository

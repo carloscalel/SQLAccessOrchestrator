@@ -1,29 +1,63 @@
 @page "/"
+@using SqlAccessOrchestrator.Application.DTOs
+@inject SqlAccessOrchestrator.UI.Services.AccessApiClient ApiClient
 
 <MudText Typo="Typo.h5">Gestión de Usuarios SQL</MudText>
-<MudTable Dense="true" Hover="true" Items="users">
-    <HeaderContent>
-        <MudTh>Login</MudTh>
-        <MudTh>Usuario</MudTh>
-        <MudTh>Estado</MudTh>
-    </HeaderContent>
-    <RowTemplate>
-        <MudTd>@context.Login</MudTd>
-        <MudTd>@context.User</MudTd>
-        <MudTd>
-            <MudChip T="string" Color="@(context.Disabled ? Color.Warning : Color.Success)">
-                @(context.Disabled ? "Deshabilitado" : "Activo")
-            </MudChip>
-        </MudTd>
-    </RowTemplate>
-</MudTable>
+<MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="ReloadAsync" Class="mb-3">Recargar</MudButton>
+
+@if (loading)
+{
+    <MudProgressCircular Indeterminate="true" />
+}
+else if (!string.IsNullOrWhiteSpace(error))
+{
+    <MudAlert Severity="Severity.Error">@error</MudAlert>
+}
+else
+{
+    <MudTable Dense="true" Hover="true" Items="users">
+        <HeaderContent>
+            <MudTh>Login</MudTh>
+            <MudTh>Usuario</MudTh>
+            <MudTh>Estado</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd>@context.LoginName</MudTd>
+            <MudTd>@context.UserName</MudTd>
+            <MudTd>
+                <MudChip T="string" Color="@(context.IsDisabled ? Color.Warning : Color.Success)">
+                    @(context.IsDisabled ? "Deshabilitado" : "Activo")
+                </MudChip>
+            </MudTd>
+        </RowTemplate>
+    </MudTable>
+}
 
 @code {
-    private readonly List<UserRow> users =
-    [
-        new("corp\\svc-report", "svc_report", false),
-        new("corp\\usr-analyst", "usr_analyst", true)
-    ];
+    [CascadingParameter(Name = "ActiveDomain")] public string ActiveDomain { get; set; } = "CORP";
 
-    private sealed record UserRow(string Login, string User, bool Disabled);
+    private List<SqlUserSummary> users = [];
+    private bool loading;
+    private string? error;
+
+    protected override async Task OnInitializedAsync() => await ReloadAsync();
+
+    private async Task ReloadAsync()
+    {
+        loading = true;
+        error = null;
+        try
+        {
+            var data = await ApiClient.GetUsersAsync(ActiveDomain, CancellationToken.None);
+            users = data.ToList();
+        }
+        catch (Exception ex)
+        {
+            error = $"No se pudo consultar usuarios desde API/SQL: {ex.Message}";
+        }
+        finally
+        {
+            loading = false;
+        }
+    }
 }

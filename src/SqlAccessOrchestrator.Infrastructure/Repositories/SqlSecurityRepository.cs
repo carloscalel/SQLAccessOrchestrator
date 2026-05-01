@@ -52,6 +52,24 @@ WHERE member_principal.name = @UserName;";
         return roles.ToArray();
     }
 
+
+    public async Task<IReadOnlyCollection<SqlUserSummary>> ListUsersAsync(DomainContext context, CancellationToken cancellationToken)
+    {
+        const string sql = @"
+SELECT sp.name AS LoginName, dp.name AS UserName, CAST(sl.is_disabled AS bit) AS IsDisabled
+FROM sys.database_principals dp
+LEFT JOIN sys.server_principals sp ON dp.sid = sp.sid
+LEFT JOIN sys.sql_logins sl ON sp.principal_id = sl.principal_id
+WHERE dp.type IN ('S','U','G')
+  AND dp.principal_id > 4
+  AND dp.name NOT IN ('dbo','guest','INFORMATION_SCHEMA','sys')
+ORDER BY dp.name;";
+
+        await using var conn = new SqlConnection(GetConnection(context));
+        var users = await conn.QueryAsync<SqlUserSummary>(new CommandDefinition(sql, cancellationToken: cancellationToken));
+        return users.ToArray();
+    }
+
     public async Task ClonePermissionsAsync(DomainContext context, PermissionCloneRequest request, CancellationToken cancellationToken)
     {
         await using var conn = new SqlConnection(GetConnection(context));

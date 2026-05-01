@@ -12,6 +12,14 @@ namespace SqlAccessOrchestrator.Api.Controllers;
 [Route("api/users")]
 public sealed class UsersController(SqlAccessGovernanceService service) : ControllerBase
 {
+    [HttpGet]
+    [Authorize(Policy = Permissions.ViewUsers)]
+    public async Task<IActionResult> GetUsers(CancellationToken cancellationToken)
+    {
+        var users = await service.ListUsersAsync(BuildContext(), cancellationToken);
+        return Ok(users);
+    }
+
     [HttpPost]
     [Authorize(Policy = Permissions.CreateUser)]
     public async Task<IActionResult> Create([FromBody] CreateSqlUserRequest request, CancellationToken cancellationToken)

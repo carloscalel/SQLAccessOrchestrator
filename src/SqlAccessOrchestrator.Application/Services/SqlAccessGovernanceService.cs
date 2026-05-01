@@ -31,6 +31,10 @@ public sealed class SqlAccessGovernanceService(ISqlSecurityRepository sqlSecurit
         await AuditAsync(context, "DISABLE_USER", request, cancellationToken);
     }
 
+
+    public Task<IReadOnlyCollection<SqlUserSummary>> ListUsersAsync(DomainContext context, CancellationToken cancellationToken) =>
+        sqlSecurityRepository.ListUsersAsync(context, cancellationToken);
+
     public async Task ClonePermissionsAsync(DomainContext context, PermissionCloneRequest request, CancellationToken cancellationToken)
     {
         if (request.SourceUser.Equals(request.TargetUser, StringComparison.OrdinalIgnoreCase))

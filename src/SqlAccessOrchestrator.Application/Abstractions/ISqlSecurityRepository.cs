@@ -10,4 +10,5 @@ public interface ISqlSecurityRepository
     Task DisableUserAsync(DomainContext context, DisableSqlUserRequest request, CancellationToken cancellationToken);
     Task<IReadOnlyCollection<string>> ListUserRolesAsync(DomainContext context, string userName, CancellationToken cancellationToken);
     Task ClonePermissionsAsync(DomainContext context, PermissionCloneRequest request, CancellationToken cancellationToken);
+    Task<IReadOnlyCollection<SqlUserSummary>> ListUsersAsync(DomainContext context, CancellationToken cancellationToken);
 }
